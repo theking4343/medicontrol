@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Citas{% endblock %}
+{% block contenido %}
+<div class="d-flex justify-content-between mb-3">
+  <h2>Citas médicas</h2>
+  <a href="{{ url_for('citas.crear') }}" class="btn btn-primary">Nueva cita</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Fecha</th><th>Hora</th><th>Médico</th><th>Paciente</th><th>Acciones</th></tr></thead>
+  <tbody>
+  {% for c in citas %}
+    <tr>
+      <td>{{ c.id }}</td>
+      <td>{{ c.fecha.strftime('%d/%m/%Y') }}</td>
+      <td>{{ c.hora.strftime('%H:%M') }}</td>
+      <td>{{ c.medico.nombre }} ({{ c.medico.especialidad }})</td>
+      <td>{{ c.paciente.nombre }}</td>
+      <td>
+        <a href="{{ url_for('citas.editar', id=c.id) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('citas.eliminar', id=c.id) }}" method="post" class="d-inline"
+              onsubmit="return confirm('¿Eliminar cita?')">
+          <button class="btn btn-sm btn-danger">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

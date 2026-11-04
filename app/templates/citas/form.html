@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>{{ 'Editar' if cita else 'Nueva' }} cita</h2>
+<form method="post">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Fecha</label>
+      <input type="date" name="fecha" class="form-control" required
+             value="{{ cita.fecha.strftime('%Y-%m-%d') if cita else '' }}">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Hora</label>
+      <input type="time" name="hora" class="form-control" required
+             value="{{ cita.hora.strftime('%H:%M') if cita else '' }}">
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Médico</label>
+    <select name="medico_id" class="form-select" required>
+      {% for m in medicos %}
+        <option value="{{ m.id }}" {{ 'selected' if cita and cita.medico_id == m.id }}>{{ m.nombre }} - {{ m.especialidad }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Paciente</label>
+    <select name="paciente_id" class="form-select" required>
+      {% for p in pacientes %}
+        <option value="{{ p.id }}" {{ 'selected' if cita and cita.paciente_id == p.id }}>{{ p.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-success">Guardar</button>
+  <a href="{{ url_for('citas.lista') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

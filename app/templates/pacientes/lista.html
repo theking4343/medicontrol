@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Pacientes{% endblock %}
+{% block contenido %}
+<div class="d-flex justify-content-between mb-3">
+  <h2>Pacientes</h2>
+  <a href="{{ url_for('pacientes.crear') }}" class="btn btn-primary">Nuevo paciente</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Acciones</th></tr></thead>
+  <tbody>
+  {% for p in pacientes %}
+    <tr>
+      <td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.telefono }}</td>
+      <td>
+        <a href="{{ url_for('pacientes.editar', id=p.id) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('pacientes.eliminar', id=p.id) }}" method="post" class="d-inline"
+              onsubmit="return confirm('¿Eliminar paciente y sus citas?')">
+          <button class="btn btn-sm btn-danger">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
